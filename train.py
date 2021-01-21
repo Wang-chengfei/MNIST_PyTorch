@@ -12,8 +12,8 @@ import os
 
 # 定义一些超参数
 batch_size = 100
-learning_rate = 0.003
-weight_decay = 0.01
+learning_rate = 0.001
+weight_decay = 0
 momentum = 0.78
 epochs = 10
 
@@ -97,8 +97,8 @@ if os.path.exists('./MNIST_model.ph'):
     print('模型加载成功！')
 
 # 定义损失函数和优化器
-optimizer = optim.SGD(net.parameters(), lr=learning_rate, weight_decay=weight_decay, momentum=momentum)
-scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda epoch: 0.8 ** epoch, last_epoch=-1)
+optimizer = optim.Adam(net.parameters(), lr=learning_rate)
+scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda epoch: 0.9 ** epoch, last_epoch=-1)
 criterion = nn.CrossEntropyLoss().to(device)
 
 
@@ -125,7 +125,7 @@ for epoch in range(epochs):
 
     # test
     if epoch % 2 == 1:
-        net.eval()
+        # net.eval()
         test_loss = 0
         correct = 0
         for data, target in test_loader:
@@ -140,7 +140,7 @@ for epoch in range(epochs):
         print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
             test_loss, correct, len(test_loader.dataset),
             100. * correct / len(test_loader.dataset)))
-        net.train()
+        # net.train()
 
 # 模型保存
 torch.save(net.state_dict(), './MNIST_model.ph')

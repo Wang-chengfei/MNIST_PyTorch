@@ -6,24 +6,20 @@ class LeNet5(nn.Module):
 
         self.conv1 = nn.Sequential(  # input_size=(1*28*28)
             nn.Conv2d(in_channels=1, out_channels=6, kernel_size=5, stride=1, padding=2),  # padding=2保证输入输出尺寸相同
-            nn.Dropout(p=0.5),
             nn.ReLU(),  # input_size=(6*28*28)
             nn.MaxPool2d(kernel_size=2, stride=2),  # output_size=(6*14*14)
         ) # 1*6*5*5=150
         self.conv2 = nn.Sequential(
             nn.Conv2d(in_channels=6, out_channels=16, kernel_size=5),
-            nn.Dropout(p=0.5),
             nn.ReLU(),  # input_size=(16*10*10)
             nn.MaxPool2d(2, 2)  # output_size=(16*5*5)
         ) # 6*16*5*5=2400
         self.fc1 = nn.Sequential(
             nn.Linear(16 * 5 * 5, 120),
-            nn.Dropout(p=0.5),
             nn.ReLU()
         ) # 16*5*5*120=48000
         self.fc2 = nn.Sequential(
             nn.Linear(120, 84),
-            nn.Dropout(p=0.5),
             nn.ReLU()
         ) # 120*84=10080
         self.fc3 = nn.Linear(84, 10) # 84*10=840

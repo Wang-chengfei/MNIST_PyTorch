@@ -8,6 +8,7 @@ import numpy as np
 net = LeNet5.LeNet5()
 if os.path.exists('./MNIST_model.ph'):
     net.load_state_dict(torch.load('./MNIST_model.ph'))
+    net.eval()
     print('模型加载成功！')
 else:
     print('暂时没有模型文件，请先训练模型后再测试！')
